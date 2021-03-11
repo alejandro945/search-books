@@ -31,7 +31,7 @@ public class ExactSum {
             money.add(Integer.parseInt(br.readLine()));
             String nextLine = br.readLine();
             line = br.readLine();
-            render = (nextLine.equals("") && line.equals("")) ? true : false;
+            render = (nextLine.equals("") && line == null) ? true : false;
         }
 
     }
@@ -78,12 +78,5 @@ public class ExactSum {
         } else {
             return money;
         }
-    }
-
-    public static int difference(int a, int b) {
-        if (a <= b)
-            return b - a;
-        else
-            return a - b;
     }
 }
