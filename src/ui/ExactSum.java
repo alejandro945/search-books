@@ -3,12 +3,12 @@ package ui;
 import java.io.*;
 import java.util.*;
 
-public class ExactSum {
-    private static List<int[]> cases = new ArrayList<int[]>();
-    private static List<Integer> money = new ArrayList<Integer>();
-    private static final String SPACE = " ";
+class ExactSum {
+    static List<int[]> cases = new ArrayList<int[]>();
+    static List<Integer> money = new ArrayList<Integer>();
+    static final String SPACE = " ";
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         readConsole(br);
@@ -17,7 +17,7 @@ public class ExactSum {
         bw.close();
     }
 
-    public static void readConsole(BufferedReader br) throws IOException {
+    static void readConsole(BufferedReader br) throws NumberFormatException, IOException {
         boolean render = false;
         String line = br.readLine();
         while (!render) {
@@ -29,44 +29,45 @@ public class ExactSum {
             }
             cases.add(booksPrices);
             money.add(Integer.parseInt(br.readLine()));
-            String nextLine = br.readLine();
             line = br.readLine();
-            render = (nextLine.equals("") && line == null) ? true : false;
+            if (line != null) {
+                line = br.readLine();
+            }
+            render = (line == null) ? true : false;
         }
-
     }
 
-    public static void WriteSolution(BufferedWriter bw) throws IOException {
+    static void WriteSolution(BufferedWriter bw) throws NumberFormatException, IOException {
         sortBooksPrices(cases);
         for (int i = 0; i < cases.size(); i++) {
-            bw.write("Case " + (i + 1) + ":" + getBestPricesForCase(cases.get(i), money.get(i)));
-            bw.flush();
+            bw.write(/* "Case " + (i + 1) + ":" + */getBestPricesForCase(cases.get(i), money.get(i)));
         }
+        bw.flush();
     }
 
-    public static String getBestPricesForCase(int[] p, int money) {
+    static String getBestPricesForCase(int[] p, int money) {
         int bestPrice1 = 0;
         int bestPrice2 = 1000000;
         for (int i = 0; i < p.length; i++) {
             int priceBook1 = p[i];
             int priceBook2 = searchBinary(i + 1, p.length - 1, (money - priceBook1), p);
             if (priceBook2 > -1) {
-                if (Math.abs(priceBook2 - priceBook1) < Math.abs(bestPrice2 - bestPrice1)) {
+                if ((priceBook2 - priceBook1) < (bestPrice2 - bestPrice1)) {
                     bestPrice1 = priceBook1;
                     bestPrice2 = priceBook2;
                 }
             }
         }
-        return " Peter should buy books whose prices are " + bestPrice1 + " and " + bestPrice2 + ".\n\n";
+        return "Peter should buy books whose prices are " + bestPrice1 + " and " + bestPrice2 + ".\n\n";
     }
 
-    public static void sortBooksPrices(List<int[]> prices) {
+    static void sortBooksPrices(List<int[]> prices) {
         for (int[] p : prices) {
             Arrays.sort(p);
         }
     }
 
-    public static int searchBinary(int lowest, int highest, int money, int[] p) {
+    static int searchBinary(int lowest, int highest, int money, int[] p) {
         if (lowest > highest) {
             return -1;
         }
