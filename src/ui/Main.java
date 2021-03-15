@@ -3,7 +3,7 @@ package ui;
 import java.io.*;
 import java.util.*;
 
-class ExactSum {
+class Main {
     static List<int[]> cases = new ArrayList<int[]>();
     static List<Integer> money = new ArrayList<Integer>();
     static final String SPACE = " ";
